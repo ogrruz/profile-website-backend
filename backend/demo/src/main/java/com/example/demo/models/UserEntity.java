@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 
 @Entity
@@ -38,8 +37,8 @@ public class UserEntity {
     public String getEmail(){
         return this.email;
     }
-    public void setEmail(String newPassword){
-        this.password = email;
+    public void setEmail(String newEmail){
+        this.email = newEmail;
     }
 
     public String getPermissions(){
