@@ -1,9 +1,15 @@
 package com.example.demo.models;
 
+import java.util.ArrayList;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import java.util.List;
+
 
 
 @Entity
@@ -17,6 +23,9 @@ public class UserEntity {
     private String password;
     private String email;
     private String permissions;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<CommentEntity> comments = new ArrayList<>();
 
     // getters and setters
 

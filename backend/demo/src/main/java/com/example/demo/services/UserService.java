@@ -17,7 +17,7 @@ public class UserService {
         // perform registration
         userRepo.saveAndFlush(user);
     }
-
+    @Transactional
     public UserEntity findByUsername (String username) {
         return userRepo.findByUsername(username);
     }
