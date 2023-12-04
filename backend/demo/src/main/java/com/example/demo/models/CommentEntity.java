@@ -28,7 +28,7 @@ public class CommentEntity {
     
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity userl;
+    private UserEntity user;
 
     private LocalDateTime creationDate;
     
@@ -64,5 +64,13 @@ public class CommentEntity {
     public LocalDateTime getLastModifiedDate(){
         return this.lastModifed;
     }
+
+    public UserEntity getUser(){
+        return this.user;
+    }
+
+     public void setUser(UserEntity user) {
+        this.user = user;
+     }
 
 }
