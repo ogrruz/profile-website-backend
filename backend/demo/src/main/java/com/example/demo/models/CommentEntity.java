@@ -53,8 +53,8 @@ public class CommentEntity {
         return this.commentText;
     }
 
-    public void setComment(String comment) {
-        this.commentText = comment;
+    public void setComment(String text) {
+        this.commentText = text;
     }
 
     public LocalDateTime getDate(){

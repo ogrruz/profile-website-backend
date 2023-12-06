@@ -22,4 +22,9 @@ public class UserService {
         return userRepo.findByUsername(username);
     }
 
+    @Transactional
+    public UserEntity findById (Long id) {
+        return userRepo.findById(id).orElse(null);
+    }
+
 }

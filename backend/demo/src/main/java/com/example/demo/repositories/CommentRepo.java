@@ -7,5 +7,8 @@ import com.example.demo.models.CommentEntity;
 import com.example.demo.models.UserEntity;
 
 public interface CommentRepo extends JpaRepository <CommentEntity, Long> {
-    List<CommentEntity> findByUser(UserEntity user);
+
+    CommentEntity findByUser (UserEntity user);
+
+    List<CommentEntity> findMultipleByUser(UserEntity user);
 }
