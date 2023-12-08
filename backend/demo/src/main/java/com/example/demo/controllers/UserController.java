@@ -22,6 +22,14 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserEntity user) {
 
+        /// remove after testing complete -----------------------------
+        String temp = user.getEmail();
+        System.out.println("This user's email is: " + temp);
+
+        String pswdTemp = user.getPassword();
+        System.out.println("This user's password is: " + pswdTemp);
+        ///--------------------------------------------------
+
         if (userService.findByUsername(user.getUsername()) == null){
             userService.registerUser(user);
             return ResponseEntity.ok("User registered sucessfully.");

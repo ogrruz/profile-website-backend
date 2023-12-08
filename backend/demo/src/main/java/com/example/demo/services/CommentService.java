@@ -4,14 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-import javax.xml.stream.events.Comment;
-
 import com.example.demo.models.CommentEntity;
 import com.example.demo.models.UserEntity;
 import com.example.demo.repositories.CommentRepo;
-
-import jakarta.transaction.Transactional;
-
 @Service
 public class CommentService {
 

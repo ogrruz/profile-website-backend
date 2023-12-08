@@ -1,9 +1,6 @@
 package com.example.demo.models;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-import org.springframework.web.bind.annotation.GetMapping;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
