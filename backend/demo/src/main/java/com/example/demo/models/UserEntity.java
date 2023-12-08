@@ -1,19 +1,25 @@
 package com.example.demo.models;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.List;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 
 @Entity
-public class UserEntity {
+public class UserEntity implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -22,7 +28,9 @@ public class UserEntity {
     private String username;
     private String password;
     private String email;
-    private String permissions;
+
+    @Enumerated (EnumType.STRING)
+    private Role permissions;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<CommentEntity> comments = new ArrayList<>();
@@ -37,13 +45,20 @@ public class UserEntity {
         this.id = id;
     }
 
+
+    // as this is a method used in UserDetails we need to override it
+    // additionally it will now point to an email instead of the username variable
+    // consider the usefullness of the username variable
+    @Override
     public String getUsername(){
-        return this.username;
+        return this.email;
     }
     public void setUsername(String newUsername){
         this.username = newUsername;
     }
 
+    // as this is a method used in UserDetails we need to override it
+    @Override
     public String getPassword(){
         return this.password;
     }
@@ -58,11 +73,46 @@ public class UserEntity {
         this.email = newEmail;
     }
 
-    public String getPermissions(){
+    public Role getPermissions(){
         return this.permissions;
     }
-    public void setPermissions(String permissions){
+    public void setPermissions(Role permissions){
         this.permissions = permissions;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // TODO Auto-generated method stub
+        return List.of(new SimpleGrantedAuthority(permissions.name()));
+        // throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+        //throw new UnsupportedOperationException("Unimplemented method 'isAccountNonExpired'");
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        // TODO Auto-generated method stub
+        return true;
+         //throw new UnsupportedOperationException("Unimplemented method 'isAccountNonLocked'");
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+         //throw new UnsupportedOperationException("Unimplemented method 'isCredentialsNonExpired'");
+    }
+
+    @Override
+    public boolean isEnabled() {
+        // TODO Auto-generated method stub
+        return true;
+         //throw new UnsupportedOperationException("Unimplemented method 'isEnabled'");
     }
 
 }
