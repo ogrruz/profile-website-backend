@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.models.UserEntity;
@@ -19,7 +20,7 @@ public class UserService {
     }
     @Transactional
     public UserEntity findByUsername (String username) {
-        return userRepo.findByUsername(username);
+        return userRepo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
     }
 
     @Transactional

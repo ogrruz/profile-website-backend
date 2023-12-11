@@ -25,7 +25,9 @@ public class UserEntity implements UserDetails{
 
     private Long id;
 
+    //redundant variable...?
     private String username;
+
     private String password;
     private String email;
 
@@ -82,35 +84,30 @@ public class UserEntity implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
         return List.of(new SimpleGrantedAuthority(permissions.name()));
         // throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        // TODO Auto-generated method stub
         return true;
         //throw new UnsupportedOperationException("Unimplemented method 'isAccountNonExpired'");
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        // TODO Auto-generated method stub
         return true;
          //throw new UnsupportedOperationException("Unimplemented method 'isAccountNonLocked'");
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        // TODO Auto-generated method stub
         return true;
          //throw new UnsupportedOperationException("Unimplemented method 'isCredentialsNonExpired'");
     }
 
     @Override
     public boolean isEnabled() {
-        // TODO Auto-generated method stub
         return true;
          //throw new UnsupportedOperationException("Unimplemented method 'isEnabled'");
     }
