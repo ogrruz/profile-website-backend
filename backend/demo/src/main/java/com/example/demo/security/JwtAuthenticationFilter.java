@@ -4,9 +4,12 @@ import java.io.IOException;
 
 import org.hibernate.grammars.hql.HqlParser.SecondContext;
 import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -49,11 +52,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         jwt = authHeader.substring(7);
         userEmail = jwtService.extractUsername(jwt); 
 
-        //finish validation process
-
+        //if user is not authenticated 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
+            // get details from the database, matching the email
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+            // if the user is valid or not
+            if(jwtService.isTokenValid(userEmail, userDetails)){
+                //create the users auth token
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                //add details to the token
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                // update auth token
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+            }
+
         }
+        // continue executing other filters
+        filterChain.doFilter(request, response);
 
 
 
