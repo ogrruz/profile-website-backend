@@ -29,13 +29,13 @@ public class SecurityConfiguration {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
             // whitelist all requests to these endpoints
-                .requestMatchers("/", "Contact","Projects","/users").permitAll()
+                .requestMatchers("/", "Contact","Projects","/users/**", "/users/authenticate").permitAll()
                 .anyRequest().authenticated()
             )
-            .formLogin(formLogin -> formLogin
-                .loginPage("/login")
-                .permitAll()
-            )
+            // .formLogin(formLogin -> formLogin
+            //     .loginPage("/login")
+            //     .permitAll()
+            // )
             //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) - deprecated - use lambda notation
             .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider)

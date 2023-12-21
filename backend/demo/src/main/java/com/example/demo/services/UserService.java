@@ -23,9 +23,11 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    
+
     @Autowired
     private UserRepo userRepo;
+
+    //private UserService userService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -61,6 +63,7 @@ public class UserService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         var user = userRepo.findByEmail(request.getEmail()).orElseThrow();
+        //UserEntity user = userService.findByEmail(request.getEmail());
 
         var jwtToken = jwtService.generateToken(user);
 
@@ -78,6 +81,11 @@ public class UserService {
     @Transactional
     public UserEntity findById (Long id) {
         return userRepo.findById(id).orElse(null);
+    }
+
+    @Transactional
+    public UserEntity findByEmail (String email) {
+        return userRepo.findByEmail(email).orElse(null);
     }
 
 }

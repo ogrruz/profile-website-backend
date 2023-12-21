@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest request){
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
         
         return ResponseEntity.ok(userService.authenticate(request));
 
@@ -67,7 +67,7 @@ public class UserController {
     // Add a GET endpoint to retrieve user information by username
     @GetMapping("/{username}")
     public ResponseEntity<UserEntity> getUserByName(@PathVariable String username) {
-        UserEntity user = userService.findByUsername(username);
+        UserEntity user = userService.findByEmail(username);
         
         if (user != null){
             return ResponseEntity.ok(user);
