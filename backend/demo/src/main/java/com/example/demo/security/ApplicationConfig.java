@@ -1,6 +1,5 @@
 package com.example.demo.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +16,12 @@ import com.example.demo.repositories.UserRepo;
 @Configuration
 public class ApplicationConfig {
 
-    private UserRepo userRepo;
+    private final UserRepo userRepo;
+
+    // Constructor to inject UserRepo
+    public ApplicationConfig(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
 
     @Bean
     public UserDetailsService userDetailsService() {
