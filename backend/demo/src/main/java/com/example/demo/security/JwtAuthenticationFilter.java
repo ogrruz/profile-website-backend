@@ -55,14 +55,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             // get details from the database, matching the email
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-
-            if(userDetails != null){
-                System.out.println("User Details: " + userDetails.getUsername());
-            }
-            else {
-                System.out.println("\n\n\n FAIL \n\n\n");
-            }
-
             // if the user is valid or not
             if(jwtService.isTokenValid(jwt, userDetails)){
                 //create the users auth token

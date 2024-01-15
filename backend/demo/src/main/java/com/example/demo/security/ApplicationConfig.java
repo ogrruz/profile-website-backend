@@ -16,9 +16,10 @@ import com.example.demo.repositories.UserRepo;
 @Configuration
 public class ApplicationConfig {
 
+    //previously private userRepo - declared Incorrectly read below
     private final UserRepo userRepo;
 
-    // Constructor to inject UserRepo
+    // Constructor to inject UserRepo -------- CAUSE OF THE this.userRepo is null bug that caused the authenticate method to fail
     public ApplicationConfig(UserRepo userRepo) {
         this.userRepo = userRepo;
     }

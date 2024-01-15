@@ -32,10 +32,11 @@ public class UserEntity implements UserDetails{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //redundant variable...?
+    //change to display name
     private String username;
 
     private String password;
+    // change email to username - minimise sensitive info - makes registration easier
     private String email;
 
     @Enumerated (EnumType.STRING)

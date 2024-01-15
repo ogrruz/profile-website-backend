@@ -14,7 +14,7 @@ import com.example.demo.services.CommentService;
 import com.example.demo.services.UserService;
 
 @RestController
-@RequestMapping("/comments")
+@RequestMapping("api/comments")
 public class CommentController {
     
     @Autowired

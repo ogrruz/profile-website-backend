@@ -16,7 +16,7 @@ import com.example.demo.models.UserEntity;
 import com.example.demo.services.UserService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("api/users")
 public class UserController {
 
     @Autowired
@@ -56,15 +56,7 @@ public class UserController {
 
     }
 
-
-    // public SomeEnityData postMethodName(@RequestBody SomeEnityData entity) {
-    //     //TODO: process POST request
-        
-    //     return entity;
-    // }
-    
-
-    // Add a GET endpoint to retrieve user information by username
+    // Add a GET endpoint to retrieve user information by username (email)
     @GetMapping("/{username}")
     public ResponseEntity<UserEntity> getUserByName(@PathVariable String username) {
         UserEntity user = userService.findByEmail(username);
