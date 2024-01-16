@@ -42,8 +42,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         final String userEmail;
         
 
-        /// DO NOT CORRECT TO !authHeader.St....
-        if(authHeader == null || authHeader.startsWith("Bearer ")){
+        /// DO NOT CORRECT TO !authHeader.St.... <- WRONG DO CORRECT IT TO !authHeader.St...
+        if(authHeader == null || !authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request, response);
             return;
         }
