@@ -34,7 +34,7 @@ public class SecurityConfiguration {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        // *** URL below needs to match the Vue client URL and port ***
+        // *** URL below needs to match the frontend client URL and port ***
         config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
         config.setAllowedMethods(Collections.singletonList("*"));
         config.setAllowedHeaders(Collections.singletonList("*"));
