@@ -2,7 +2,6 @@ package com.example.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,26 +21,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    // @PostMapping("/register")
-    // public ResponseEntity<String> registerUser(@RequestBody UserEntity user) {
-
-    //     /// remove after testing complete -----------------------------
-    //     String temp = user.getEmail();
-    //     System.out.println("This user's email is: " + temp);
-
-    //     String pswdTemp = user.getPassword();
-    //     System.out.println("This user's password is: " + pswdTemp);
-    //     ///--------------------------------------------------
-
-    //     if (userService.findByUsername(user.getUsername()) == null){
-    //         userService.register(user);
-    //         return ResponseEntity.ok("User registered sucessfully.");
-    //     }
-    //     else {return ResponseEntity.status(400).body("User not registered: this username already exists");}
-
-        
-    // }
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
