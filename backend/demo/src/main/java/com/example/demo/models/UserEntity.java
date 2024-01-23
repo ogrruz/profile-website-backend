@@ -32,11 +32,11 @@ public class UserEntity implements UserDetails{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //change to display name
+    
     private String displayName;
 
     private String password;
-    // change email to username - minimise sensitive info - makes registration easier
+
     private String username;
 
     @Enumerated (EnumType.STRING)
@@ -57,8 +57,6 @@ public class UserEntity implements UserDetails{
 
 
     // as this is a method used in UserDetails we need to override it
-    // additionally it will now point to an email instead of the username variable
-    // consider the usefullness of the username variable
     @Override
     public String getUsername(){
         return this.username;
@@ -74,6 +72,13 @@ public class UserEntity implements UserDetails{
     }
     public void setPassword(String newPassword){
         this.password = newPassword;
+    }
+
+    public String getEmail(){
+        return this.username;
+    }
+    public void setEmail(String newEmail){
+        this.username = newEmail;
     }
 
     public Role getPermissions(){
