@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
-        final String userEmail;
+        final String username;
         
 
         /// DO NOT CORRECT TO !authHeader.St.... <- WRONG DO CORRECT IT TO !authHeader.St...
@@ -49,12 +49,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         }
 
         jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(jwt); 
+        username = jwtService.extractUsername(jwt); 
 
         //if user is not authenticated 
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
             // get details from the database, matching the email
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             // if the user is valid or not
             if(jwtService.isTokenValid(jwt, userDetails)){
                 //create the users auth token

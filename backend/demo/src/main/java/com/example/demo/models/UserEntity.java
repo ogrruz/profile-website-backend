@@ -33,11 +33,11 @@ public class UserEntity implements UserDetails{
     private Long id;
 
     //change to display name
-    private String username;
+    private String displayName;
 
     private String password;
     // change email to username - minimise sensitive info - makes registration easier
-    private String email;
+    private String username;
 
     @Enumerated (EnumType.STRING)
     private Role permissions;
@@ -61,10 +61,10 @@ public class UserEntity implements UserDetails{
     // consider the usefullness of the username variable
     @Override
     public String getUsername(){
-        return this.email;
+        return this.username;
     }
-    public void setUsername(String newUsername){
-        this.username = newUsername;
+    public void setDisplayName(String newDisplayName){
+        this.displayName = newDisplayName;
     }
 
     // as this is a method used in UserDetails we need to override it
@@ -74,13 +74,6 @@ public class UserEntity implements UserDetails{
     }
     public void setPassword(String newPassword){
         this.password = newPassword;
-    }
-
-    public String getEmail(){
-        return this.email;
-    }
-    public void setEmail(String newEmail){
-        this.email = newEmail;
     }
 
     public Role getPermissions(){

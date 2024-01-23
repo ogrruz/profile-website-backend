@@ -39,7 +39,7 @@ public class UserController {
     // Add a GET endpoint to retrieve user information by username (email)
     @GetMapping("/{username}")
     public ResponseEntity<UserEntity> getUserByName(@PathVariable String username) {
-        UserEntity user = userService.findByEmail(username);
+        UserEntity user = userService.findByUsername(username);
         
         if (user != null){
             return ResponseEntity.ok(user);

@@ -43,7 +43,7 @@ public class UserService {
     public AuthenticationResponse register(RegisterRequest request) {
         var user = UserEntity.builder()
             .username(request.getUsername())
-            .email(request.getEmail())
+            .displayName(request.getDisplayName())
             .password(passwordEncoder.encode(request.getPassword()))
             .permissions(Role.GUEST)
             .build();
@@ -59,9 +59,9 @@ public class UserService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
-        var user = userRepo.findByEmail(request.getEmail()).orElseThrow();
+        var user = userRepo.findByUsername(request.getUsername()).orElseThrow();
         //UserEntity user = userService.findByEmail(request.getEmail());
 
         var jwtToken = jwtService.generateToken(user);
@@ -80,11 +80,6 @@ public class UserService {
     @Transactional
     public UserEntity findById (Long id) {
         return userRepo.findById(id).orElse(null);
-    }
-
-    @Transactional
-    public UserEntity findByEmail (String email) {
-        return userRepo.findByEmail(email).orElse(null);
     }
 
 }
