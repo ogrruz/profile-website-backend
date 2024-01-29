@@ -1,5 +1,8 @@
 package com.example.demo.controllers;
 
+import java.util.List;
+
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +18,10 @@ import com.example.demo.models.DTO.CommentRequest;
 import com.example.demo.models.DTO.CommentRequestJWT;
 import com.example.demo.services.CommentService;
 import com.example.demo.services.UserService;
-import com.example.demo.security.JwtService;;
+import com.example.demo.security.JwtService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+;
 
 @RestController
 @RequestMapping("api/comments")
@@ -95,5 +101,20 @@ public class CommentController {
         
 
     }
+
+    @GetMapping("/retrieve")
+    public ResponseEntity<List<CommentEntity>> retrieveComments() {
+
+        List<CommentEntity> comments = commentService.findAll();
+
+        if (comments != null) {
+            
+            return ResponseEntity.ok(comments);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+        
+    }
+    
 
 }

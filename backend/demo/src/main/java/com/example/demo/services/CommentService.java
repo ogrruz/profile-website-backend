@@ -50,6 +50,10 @@ public class CommentService {
         
     }
 
+    public List<CommentEntity> findAll() {
+        return commentRepo.findAll();
+    }
+
     
 
 
