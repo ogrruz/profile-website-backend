@@ -127,19 +127,6 @@ public class CommentController {
         }
         
     }
-
-    // public ResponseEntity<List<CommentEntity>> retrieveComments() {
-
-    //     List<CommentEntity> comments = commentService.findAll();
-
-    //     if (comments != null) {
-            
-    //         return ResponseEntity.ok(comments);
-    //     } else {
-    //         return ResponseEntity.notFound().build();
-    //     }
-        
-    // }
     
 
 }
