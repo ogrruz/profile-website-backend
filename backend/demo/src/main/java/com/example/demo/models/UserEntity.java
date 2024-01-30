@@ -22,6 +22,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -42,8 +44,9 @@ public class UserEntity implements UserDetails{
     @Enumerated (EnumType.STRING)
     private Role permissions;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<CommentEntity> comments = new ArrayList<>();
+    // @JsonIgnore
+    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    // private List<CommentEntity> comments = new ArrayList<>();
 
     // getters and setters
 

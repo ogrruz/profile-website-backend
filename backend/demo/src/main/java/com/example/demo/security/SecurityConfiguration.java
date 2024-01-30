@@ -51,7 +51,7 @@ public class SecurityConfiguration {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
             // whitelist all requests to these endpoints
-                .requestMatchers("/","/api/users/authenticate","/api/users/register").permitAll()
+                .requestMatchers("/","/api/users/authenticate","/api/users/register", "/api/comments/retrieve").permitAll()
                 .anyRequest().authenticated()
             )
             // .formLogin(formLogin -> formLogin
