@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.catalina.connector.Response;
@@ -16,6 +17,7 @@ import com.example.demo.models.CommentEntity;
 import com.example.demo.models.UserEntity;
 import com.example.demo.models.DTO.CommentRequest;
 import com.example.demo.models.DTO.CommentRequestJWT;
+import com.example.demo.models.DTO.CommentResponse;
 import com.example.demo.services.CommentService;
 import com.example.demo.services.UserService;
 import com.example.demo.security.JwtService;
@@ -103,18 +105,41 @@ public class CommentController {
     }
 
     @GetMapping("/retrieve")
-    public ResponseEntity<List<CommentEntity>> retrieveComments() {
+    public ResponseEntity<List<CommentResponse>> retrieveComments() {
 
         List<CommentEntity> comments = commentService.findAll();
+        List<CommentResponse> commentsDTOs = new ArrayList<>();
 
         if (comments != null) {
+
+            for(CommentEntity comment : comments) {
+                CommentResponse dto = new CommentResponse();
+                dto.setCommentText(comment.getCommentText());
+                dto.setCreationDate(comment.getDate());
+                dto.setLastModifed(comment.getLastModifiedDate());
+                dto.setUserDisplayName(comment.getUser().getDisplayName());
+                commentsDTOs.add(dto);
+            }
             
-            return ResponseEntity.ok(comments);
+            return ResponseEntity.ok(commentsDTOs);
         } else {
             return ResponseEntity.notFound().build();
         }
         
     }
+
+    // public ResponseEntity<List<CommentEntity>> retrieveComments() {
+
+    //     List<CommentEntity> comments = commentService.findAll();
+
+    //     if (comments != null) {
+            
+    //         return ResponseEntity.ok(comments);
+    //     } else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+        
+    // }
     
 
 }
