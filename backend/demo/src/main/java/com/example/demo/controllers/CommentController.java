@@ -17,7 +17,7 @@ import com.example.demo.models.CommentEntity;
 import com.example.demo.models.UserEntity;
 import com.example.demo.models.DTO.CommentRequest;
 import com.example.demo.models.DTO.CommentRequestJWT;
-import com.example.demo.models.DTO.CommentResponse;
+import com.example.demo.models.DTO.CommentDTO;
 import com.example.demo.services.CommentService;
 import com.example.demo.services.UserService;
 import com.example.demo.security.JwtService;
@@ -40,31 +40,6 @@ public class CommentController {
 
     // Endpoints
 
-    //Adding new comment
-    // @PostMapping("/add")
-    // public ResponseEntity<String> addComment(@RequestBody CommentRequest commentRequest) {
-        
-    //     // You might want to perform authentication and get the current user
-    //     // This is a simplified example assuming you have a CommentRequest class
-    //     // that represents the structure of the incoming JSON request
-
-    //     CommentEntity comment = new CommentEntity();
-    //     comment.setComment(commentRequest.getText());
-
-    //     // Set the user making the comment (you may get this from authentication)
-    //     // For simplicity, let's assume a user with ID 1
-
-    //     UserEntity user = new UserEntity();
-    //     user.setId(1L);
-    //     comment.setUser(user);
-
-    //     commentService.saveComment(comment);
-
-    //     return ResponseEntity.ok("Comment added successfully");
-        
-
-    // }
-
     // Post comment through including jwt in the request
     @PostMapping("/post")
     public ResponseEntity<String> postComment(@RequestBody CommentRequestJWT commentRequest, @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
@@ -79,7 +54,7 @@ public class CommentController {
         return ResponseEntity.ok("Comment added successfully to user");
     }
     
-    
+    //old testing request - do not use
     @PostMapping("/add")
     public ResponseEntity<String> addCommentToUser(@RequestBody CommentRequest commentRequest) {
 
@@ -105,23 +80,43 @@ public class CommentController {
     }
 
     @GetMapping("/retrieve")
-    public ResponseEntity<List<CommentResponse>> retrieveComments() {
+    public ResponseEntity<List<CommentDTO>> retrieveComments() {
 
         List<CommentEntity> comments = commentService.findAll();
-        List<CommentResponse> commentsDTOs = new ArrayList<>();
+        List<CommentDTO> commentsDTOs = new ArrayList<>();
 
         if (comments != null) {
 
             for(CommentEntity comment : comments) {
-                CommentResponse dto = new CommentResponse();
+                CommentDTO dto = new CommentDTO();
                 dto.setCommentText(comment.getCommentText());
                 dto.setCreationDate(comment.getDate());
                 dto.setLastModifed(comment.getLastModifiedDate());
                 dto.setUserDisplayName(comment.getUser().getDisplayName());
+                dto.setCommentId(comment.getId());
                 commentsDTOs.add(dto);
             }
             
             return ResponseEntity.ok(commentsDTOs);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+        
+    }
+
+    @PostMapping("/checkOwner")
+    public ResponseEntity<Boolean> belongsToUser(@RequestBody CommentDTO commentDTO, @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+
+        String jwt = authorizationHeader.substring("Bearer ".length());
+        String username = jwtService.extractUsername(jwt);
+        UserEntity user = userService.findByUsername(username);
+        
+        CommentEntity matchedComment = commentService.findCommentById(commentDTO.getCommentId());
+
+        if (matchedComment != null && user.getId() == matchedComment.getUser().getId()){
+            return ResponseEntity.ok(true);
+        } else if ( matchedComment != null &&  user.getId() != matchedComment.getUser().getId()){
+            return ResponseEntity.ok(false);
         } else {
             return ResponseEntity.notFound().build();
         }

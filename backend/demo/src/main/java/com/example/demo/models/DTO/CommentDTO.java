@@ -3,12 +3,11 @@ package com.example.demo.models.DTO;
 import java.time.LocalDateTime;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-public class CommentResponse {
+public class CommentDTO {
     
     private String commentText;
 
@@ -17,5 +16,7 @@ public class CommentResponse {
     private LocalDateTime creationDate;
 
     private LocalDateTime lastModifed;
+
+    private Long commentId;
 
 }

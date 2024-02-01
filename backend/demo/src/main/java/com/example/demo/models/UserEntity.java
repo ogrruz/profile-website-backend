@@ -68,6 +68,10 @@ public class UserEntity implements UserDetails{
         this.displayName = newDisplayName;
     }
 
+    public String getDisplayName() {
+        return this.displayName;
+    }
+
     // as this is a method used in UserDetails we need to override it
     @Override
     public String getPassword(){
