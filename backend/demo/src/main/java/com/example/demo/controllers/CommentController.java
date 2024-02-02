@@ -122,6 +122,30 @@ public class CommentController {
         }
         
     }
+
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteComment(@RequestBody CommentDTO commentDTO, @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+
+        String jwt = authorizationHeader.substring("Bearer ".length());
+        String username = jwtService.extractUsername(jwt);
+        UserEntity user = userService.findByUsername(username);
+        
+        CommentEntity matchedComment = commentService.findCommentById(commentDTO.getCommentId());
+
+        //ensure the commentId given matches the comment text of the  comment
+        Boolean verifyComment = matchedComment.getCommentText().equals(commentDTO.getCommentText());
+
+        if (verifyComment == true && user.getId() == matchedComment.getUser().getId()){
+            
+            commentService.deleteComment(matchedComment);
+            return ResponseEntity.ok("Comment Successfully removed");
+        }
+
+        return ResponseEntity.notFound().build();
+
+        
+        
+    }
     
 
 }
