@@ -116,9 +116,9 @@ public class CommentController {
         if (matchedComment != null && user.getId() == matchedComment.getUser().getId()){
             return ResponseEntity.ok(true);
         } else if ( matchedComment != null &&  user.getId() != matchedComment.getUser().getId()){
-            return ResponseEntity.ok(false);
-        } else {
             return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.badRequest().build();
         }
         
     }
