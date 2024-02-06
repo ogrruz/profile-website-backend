@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -142,10 +143,35 @@ public class CommentController {
         }
 
         return ResponseEntity.notFound().build();
+    }
 
+    @PostMapping("/edit")
+    public ResponseEntity<String> editComent(@RequestBody CommentDTO newComment, @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        
+        String jwt = authorizationHeader.substring("Bearer ".length());
+        String username = jwtService.extractUsername(jwt);
+        UserEntity user = userService.findByUsername(username);
+        
+        CommentEntity matchedComment = commentService.findCommentById(newComment.getCommentId());
+
+        //verify user's authorship of the comment
+        List<CommentEntity> commentsByUser = commentService.findCommentsByUser(user);
+        Boolean containsComment = false;
+        for (CommentEntity comment : commentsByUser) {
+            if (comment.getId() == matchedComment.getId()) {
+                containsComment = true;
+                break;
+            }
+        }
+
+        if(containsComment) {
+            commentService.editComment(matchedComment, newComment.getCommentText());
+            return ResponseEntity.ok("Comment successfully updated");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
         
         
     }
-    
 
 }

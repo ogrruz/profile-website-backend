@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+import javax.xml.stream.events.Comment;
+
 import com.example.demo.models.CommentEntity;
 import com.example.demo.models.UserEntity;
 import com.example.demo.repositories.CommentRepo;
@@ -48,6 +50,11 @@ public class CommentService {
             saveComment(currentComment);
         }
         
+    }
+
+    public void editComment(CommentEntity comment, String newText) {
+        comment.setComment(newText);
+        saveComment(comment);
     }
 
     public List<CommentEntity> findAll() {
