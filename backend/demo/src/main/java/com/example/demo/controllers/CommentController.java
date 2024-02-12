@@ -133,16 +133,34 @@ public class CommentController {
         
         CommentEntity matchedComment = commentService.findCommentById(commentDTO.getCommentId());
 
-        //ensure the commentId given matches the comment text of the  comment
-        Boolean verifyComment = matchedComment.getCommentText().equals(commentDTO.getCommentText());
+        //ensure the commentId given matches the comment text of the  comment (deprecated)
+        // Boolean verifyComment = matchedComment.getCommentText().equals(commentDTO.getCommentText());
 
-        if (verifyComment == true && user.getId() == matchedComment.getUser().getId()){
+        // if (verifyComment == true && user.getId() == matchedComment.getUser().getId()){
             
-            commentService.deleteComment(matchedComment);
-            return ResponseEntity.ok("Comment Successfully removed");
+        //     commentService.deleteComment(matchedComment);
+        //     return ResponseEntity.ok("Comment Successfully removed");
+        // }
+
+        // return ResponseEntity.notFound().build();
+
+
+        //verify user's authorship of the comment
+        List<CommentEntity> commentsByUser = commentService.findCommentsByUser(user);
+        Boolean containsComment = false;
+        for (CommentEntity comment : commentsByUser) {
+            if (comment.getId() == matchedComment.getId()) {
+                containsComment = true;
+                break;
+            }
         }
 
-        return ResponseEntity.notFound().build();
+        if(containsComment) {
+            commentService.deleteComment(matchedComment);
+            return ResponseEntity.ok("Comment Successfully removed");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/edit")
